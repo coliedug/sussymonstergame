@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int jumpheight = 10;
     int mainAttackDamage = 1;
     bool facingLeft = false;
+    enum States
+    {
+        Ground,
+        Latched,
+        Air
+    }
+    States status;
 
     void Awake()
     {
@@ -25,8 +33,20 @@ public class PlayerController : MonoBehaviour
         SwitchCharacter();
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (status != States.Latched)
+        {
+            status = States.Ground;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        status = States.Air;
+    }
     void Update()
     {
+        GetComponentInChildren<TextMeshPro>().SetText(status.ToString());
         CheckInputs();
     }
     private void FixedUpdate()
@@ -57,7 +77,7 @@ public class PlayerController : MonoBehaviour
     }
     void CheckInputs()
     {
-        if(Input.GetButtonDown("Jump") && currentChar != 2)
+        if(Input.GetButtonDown("Jump") && status != States.Air)
         {
             Debug.Log("Jump");
             rb.AddForce(new Vector2(0, jumpheight * 1000));
@@ -69,7 +89,7 @@ public class PlayerController : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         if(Input.GetButtonDown("Fire2"))
         {
-            if (currentChar < 3)
+            if (currentChar < 2)
             {
                 currentChar++;
             }
@@ -92,14 +112,12 @@ public class PlayerController : MonoBehaviour
             case 1:
                 sr.sprite = sprites[0];
                 moveSpeed = 300;
+                mainAttackDamage = 5;
                 break;
             case 2:
                 sr.sprite = sprites[1];
-                moveSpeed = 150;
-                break;
-            case 3:
-                sr.sprite = sprites[2];
                 moveSpeed = 600;
+                mainAttackDamage = 2;
                 break;
         }
     }
