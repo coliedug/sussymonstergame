@@ -57,12 +57,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 85b3988ae59b61d49b57e55de7ee9f7b, type: 3}
   - {fileID: 21300000, guid: 548bfefaa24818f479f92203a01bdeed, type: 3}
   currentChar: 1
-  jumpheight: 20
+  jumpheight: 500
   dashLength: 10
-  maxMoveSpeed: 0
+  maxMoveSpeed: 7
   ps:
   - {fileID: 165747427305498276}
   - {fileID: 7928295900878950124}
+  slamRadius: 5
+  slamDamage: 10
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!50 &-2878513408466007691
 Rigidbody2D:
   serializedVersion: 4
@@ -76,7 +81,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 5
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}

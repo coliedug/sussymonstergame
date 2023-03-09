@@ -8,11 +8,17 @@ public class HealthSystemScript : MonoBehaviour
 
     public void ChangeHealth(int changeAmount)
     {
-        Debug.Log(gameObject.name + ": I got hit");
         int oldHP = health;
         health += changeAmount;
         CheckStatus();
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        if (gameObject.GetComponent<SpriteRenderer>() != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+        }
         Invoke("ReturnColour", 0.1f);
     }
 
@@ -26,12 +32,18 @@ public class HealthSystemScript : MonoBehaviour
 
     void Kill()
     {
-        Debug.Log("Destroying " + gameObject);
         Destroy(gameObject);
     }
 
     void ReturnColour()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        if (gameObject.GetComponent<SpriteRenderer>() != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+        }
     }
 }
