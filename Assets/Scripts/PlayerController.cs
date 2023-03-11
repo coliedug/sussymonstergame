@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int slamDamage;
     [SerializeField] LayerMask enemyMask;
     float facedDirectionOffset;
+    int touchedObjects;
     enum States
     {
         Ground,
@@ -44,13 +45,24 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        status = States.Ground;
-        doubleJumpAvailable = true;
-        PlayerCollisionCheck(collision);
+        if (collision.gameObject.layer == 7)
+        { return; }
+        touchedObjects++;
+        status = PlayerCollisionCheck(collision);
+        if (status != States.Air && currentChar == 2)
+        {
+            doubleJumpAvailable = true;
+        }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        status = States.Air;
+        if (collision.gameObject.layer == 7)
+        { return; }
+        touchedObjects--;
+        if (touchedObjects == 0)
+        {
+            status = States.Air;
+        }
     }
     void Update()
     {
@@ -95,14 +107,19 @@ public class PlayerController : MonoBehaviour
     }
     void CheckInputs()
     {//This is where player input is processed, it's called every update
-        if(Input.GetButtonDown("Jump") && doubleJumpAvailable)
+        if(Input.GetButtonDown("Jump"))
         {
-            if (status == States.Air)
+            if (status != States.Air)
             {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(new Vector2(0, jumpheight));
+            }
+            else if (currentChar == 2 && doubleJumpAvailable)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(new Vector2(0, jumpheight));
                 doubleJumpAvailable = false;
             }
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(new Vector2(0, jumpheight));
         }
         if(Input.GetButtonDown("Fire1"))
         {
@@ -138,11 +155,13 @@ public class PlayerController : MonoBehaviour
                 sr.sprite = sprites[0];
                 moveSpeed = 4;
                 mainAttackDamage = 5;
+                doubleJumpAvailable = false;
                 break;
             case 2:
                 sr.sprite = sprites[1];
                 moveSpeed = 8;
                 mainAttackDamage = 2;
+                doubleJumpAvailable = true;
                 break;
         }
     }
@@ -155,7 +174,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Hit " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.GetComponent<HealthSystemScript>() != null)
             {
-                hit.collider.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-mainAttackDamage);
+                hit.collider.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-mainAttackDamage, false);
             }
         }
     }
@@ -184,9 +203,12 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hit = Physics2D.OverlapCircleAll(ps[facedDirection].gameObject.transform.position, slamRadius, enemyMask);
         foreach (Collider2D i in hit)
         {
-            i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage);
-            Vector2 forceDirection = i.transform.position - ps[facedDirection].gameObject.transform.position;
-            i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
+            i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
+            if (i.GetComponent<Rigidbody2D>() != null)
+            {
+                Vector2 forceDirection = i.transform.position - ps[facedDirection].gameObject.transform.position;
+                i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
+            }
         }
     }
     void Dash()
@@ -195,12 +217,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position + new Vector3(0.6f * facedDirectionOffset, 0), transform.right * facedDirectionOffset, dashLength);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(gameObject.transform.position + new Vector3(0.6f * facedDirectionOffset, 0), 2, transform.right * facedDirectionOffset, dashLength);
         foreach (RaycastHit2D i in hits)
         {
             if (i.collider.GetComponent<HealthSystemScript>() != null)
             {
-                i.collider.GetComponent<HealthSystemScript>().ChangeHealth(-dashDamage);
+                i.collider.GetComponent<HealthSystemScript>().ChangeHealth(-dashDamage, false);
             }
             else
             {
@@ -222,19 +244,24 @@ public class PlayerController : MonoBehaviour
     }
     States PlayerCollisionCheck(Collision2D collision)
     {
-        Debug.Log("Collision point: " + collision.GetContact(0).point);
         Vector2 relativePos = collision.GetContact(0).point - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-        Debug.Log("Relative position: " + relativePos);
-        float r = Mathf.Sqrt(Mathf.Pow(relativePos.x, 2))+ Mathf.Pow(relativePos.y, 2);
-        Debug.Log("Radius: " + r);
         float theta = Mathf.Atan(relativePos.y / relativePos.x);
         if (theta < 0)
         {
             theta += Mathf.PI * 2;
         }
-        theta = theta * 180 / Mathf.PI;
+        theta = theta * 180 / Mathf.PI; //Convert from radians to degrees
         Debug.Log("Theta: " + theta);
-        return (States.Ground);
+        switch (theta)
+        {
+            case >45 and <135:
+                return(States.Air);
+            case >240 and < 300:
+                return (States.Ground);
+            default:
+                return (States.Side);
+
+        }
     }
 }
 
