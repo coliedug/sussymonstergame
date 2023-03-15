@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask enemyMask;
     float facedDirectionOffset;
     int touchedObjects;
+    float dashCooldown;
+    float slamCharge;
     enum States
     {
         Ground,
@@ -68,6 +70,18 @@ public class PlayerController : MonoBehaviour
     {
         GetComponentInChildren<TextMeshPro>().SetText(status.ToString());
         CheckInputs();
+        if (!dashAvailable)
+        {
+            dashCooldown += Time.deltaTime;
+        }
+        if (dashCooldown >= 3)
+        {
+            dashAvailable = true;
+        }
+        if (slamCharge > 1)
+        {
+            Debug.Log("Slam Ready");
+        }
     }
     private void FixedUpdate()
     { //This is where the of the physics based update calculations, it's all just rigidbody movement basically.
@@ -125,9 +139,13 @@ public class PlayerController : MonoBehaviour
         {
             MainAttack();
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButton("Fire2"))
         {
             SecondaryAttack();
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            slamCharge = 0;
         }
         movement.x = Input.GetAxisRaw("Horizontal");
         if(Input.GetKeyDown(KeyCode.E))
@@ -142,6 +160,18 @@ public class PlayerController : MonoBehaviour
             }
             SwitchCharacter();
         }
+        if (Input.GetButtonUp("Fire2"))
+        {
+            if(facingLeft)
+            {
+                Slam(0);
+            }
+            else
+            {
+                Slam(1);
+            }
+        }
+
     }
     void ProcessMovement()
     {
@@ -182,14 +212,7 @@ public class PlayerController : MonoBehaviour
     {//This just checks which character you're on and calls the slam or dash when you right click, depending on said character.
         if (currentChar == 1)
         {
-            if(facingLeft)
-            {
-                Slam(0);
-            }
-            else
-            {
-                Slam(1);
-            }
+            slamCharge += Time.deltaTime;
         }
         else
         {
@@ -199,15 +222,18 @@ public class PlayerController : MonoBehaviour
     void Slam(int facedDirection)
     {//This is the tank's slam attack, it uses an overlap circle to grab all the hit colliders with the right layermask, cast centred on a gameobject attached
         //to the player gameobject which has the particle effects.
-        ps[facedDirection].Play();
-        Collider2D[] hit = Physics2D.OverlapCircleAll(ps[facedDirection].gameObject.transform.position, slamRadius, enemyMask);
-        foreach (Collider2D i in hit)
+        if (Input.GetButtonUp("Fire2") && slamCharge > 1)
         {
-            i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
-            if (i.GetComponent<Rigidbody2D>() != null)
+            ps[facedDirection].Play();
+            Collider2D[] hit = Physics2D.OverlapCircleAll(ps[facedDirection].gameObject.transform.position, slamRadius, enemyMask);
+            foreach (Collider2D i in hit)
             {
-                Vector2 forceDirection = i.transform.position - ps[facedDirection].gameObject.transform.position;
-                i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
+                i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
+                if (i.GetComponent<Rigidbody2D>() != null)
+                {
+                    Vector2 forceDirection = i.transform.position - ps[facedDirection].gameObject.transform.position;
+                    i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
+                }
             }
         }
     }
@@ -232,6 +258,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         rb.MovePosition(gameObject.transform.position + new Vector3(dashLength * facedDirectionOffset, 0, 0));
+        dashAvailable = false;
 
     }
     RaycastHit2D CastRayAtSide(float rayLength)
