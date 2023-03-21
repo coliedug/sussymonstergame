@@ -7,11 +7,22 @@ public class FlyingEnemyScript : MonoBehaviour
     GameObject player;
     float damageTick;
     [SerializeField] int contactDamage;
-    // Start is called before the first frame update
+
     void Start()
     {
         player = PlayerController.player;
         GetComponent<AIDestinationSetter>().target = player.transform;
+    }
+    private void FixedUpdate()
+    {
+        if(GetComponent<AIPath>().desiredVelocity.x >= 0.01f)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        else if (GetComponent<AIPath>().desiredVelocity.x <= -0.01f)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
     }
     void OnCollisionStay2D(Collision2D collision)
     {

@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     int touchedObjects;
     float dashCooldown;
     float slamCharge;
+    [SerializeField] bool debugMode;
+    [SerializeField] GameObject debugCircle;
     enum States
     {
         Ground,
@@ -68,7 +70,14 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        GetComponentInChildren<TextMeshPro>().SetText(status.ToString());
+        if (debugMode)
+        {
+            GetComponentInChildren<TextMeshPro>().SetText(status.ToString());
+        }
+        else
+        {
+            GetComponentInChildren<TextMeshPro>().SetText("");
+        }
         CheckInputs();
         if (!dashAvailable)
         {
@@ -78,10 +87,6 @@ public class PlayerController : MonoBehaviour
         {
             dashAvailable = true;
         }
-        if (slamCharge > 1)
-        {
-            Debug.Log("Slam Ready");
-        }
     }
     private void FixedUpdate()
     { //This is where the of the physics based update calculations, it's all just rigidbody movement basically.
@@ -90,13 +95,13 @@ public class PlayerController : MonoBehaviour
         {
             facingLeft = true;
             facedDirectionOffset = -1f;
-            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
         else if (movement.x > 0)
         {
             facingLeft = false;
             facedDirectionOffset = 1;
-            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = false;
+            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = true;
         }
         if (rb.velocity.x > maxMoveSpeed | rb.velocity.x < -maxMoveSpeed)
         {
@@ -272,7 +277,12 @@ public class PlayerController : MonoBehaviour
     States PlayerCollisionCheck(Collision2D collision)
     {
         Vector2 relativePos = collision.GetContact(0).point - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+        if (debugMode) //DEBUG, DELETE LATER
+        {
+            Instantiate(debugCircle, new Vector3(collision.GetContact(0).point.x, collision.GetContact(0).point.y, 0), Quaternion.identity);
+        }
         float theta = Mathf.Atan(relativePos.y / relativePos.x);
+        Debug.Log(relativePos.x + " , " + relativePos.y);
         if (theta < 0)
         {
             theta += Mathf.PI * 2;
