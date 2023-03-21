@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
-public class FlyingEnemyScript : MonoBehaviour
+
+public class Thorns_Script : MonoBehaviour
 {
+    //script is same as "FlyingEnemyScript", just without a.i. element (player takes damage upon colliding)
     GameObject player;
     float damageTick;
     [SerializeField] int contactDamage;
@@ -11,14 +12,19 @@ public class FlyingEnemyScript : MonoBehaviour
     void Start()
     {
         player = PlayerController.player;
-        GetComponent<AIDestinationSetter>().target = player.transform;
     }
-    void OnCollisionStay2D(Collision2D collision)
+
+ 
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        TickDamage();
+        //couldn't get it to work to where it's confirms whether it's only the player entering trigger
+        //would have to fix if in case of other colliders coming into contact with thorns causes player to take damage
+        //works otherwise
+        /*if (collision.gameObject == player)
         {
             TickDamage();
-        }
+        }*/
     }
 
     void TickDamage()
