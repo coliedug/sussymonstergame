@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -2878513408466007691}
   - component: {fileID: -5843049959949674511}
   - component: {fileID: 864614977}
+  - component: {fileID: 5353952638157557041}
   m_Layer: 2
   m_Name: _Player
   m_TagString: Untagged
@@ -71,6 +72,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   debugMode: 1
+  debugCircle: {fileID: 0}
 --- !u!50 &-2878513408466007691
 Rigidbody2D:
   serializedVersion: 4
@@ -104,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad635e3ae4dd91041a6d4c62ec0eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 5
   hammerRequired: 0
 --- !u!82 &864614977
 AudioSource:
@@ -202,6 +204,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5353952638157557041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063584981462942948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a77c077cdd301344bbfe60845f0afbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  healthPickupHPChange: 1
 --- !u!1 &2985948392011865422
 GameObject:
   m_ObjectHideFlags: 0

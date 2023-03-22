@@ -10,6 +10,10 @@ public class HealthSystemScript : MonoBehaviour
 
     private void Start()
     {
+        if (gameObject == PlayerController.player) //Checks if this gameobject is the player, if so, updates the hp on the UI
+        {
+            UIScript.userInterface.UpdatePlayerHP(health);
+        }
         if (gameObject.GetComponent<SpriteRenderer>() != null)
         {
             normalColour = gameObject.GetComponent<SpriteRenderer>().color;
@@ -29,6 +33,10 @@ public class HealthSystemScript : MonoBehaviour
         int oldHP = health;
         health += changeAmount;
         CheckStatus();
+        if (gameObject == PlayerController.player) //Checks if this gameobject is the player, if so, updates the hp on the UI
+        {
+            UIScript.userInterface.UpdatePlayerHP(health);
+        }
         if (gameObject.GetComponent<SpriteRenderer>() != null)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;

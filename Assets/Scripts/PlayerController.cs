@@ -277,18 +277,16 @@ public class PlayerController : MonoBehaviour
     States PlayerCollisionCheck(Collision2D collision)
     {
         Vector2 relativePos = collision.GetContact(0).point - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-        if (debugMode) //DEBUG, DELETE LATER
-        {
-            Instantiate(debugCircle, new Vector3(collision.GetContact(0).point.x, collision.GetContact(0).point.y, 0), Quaternion.identity);
-        }
         float theta = Mathf.Atan(relativePos.y / relativePos.x);
-        Debug.Log(relativePos.x + " , " + relativePos.y);
         if (theta < 0)
         {
             theta += Mathf.PI * 2;
         }
         theta = theta * 180 / Mathf.PI; //Convert from radians to degrees
-        Debug.Log("Theta: " + theta);
+        if (relativePos.x < 0 && relativePos.y < 0)
+        {
+            theta += 180;
+        }
         switch (theta)
         {
             case >45 and <135:
