@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-public class FlyingEnemyScript : MonoBehaviour
+public class FlyingEnemyScript : AIDestinationSetter
 {
     GameObject player;
     float damageTick;
@@ -12,6 +12,7 @@ public class FlyingEnemyScript : MonoBehaviour
     {
         player = PlayerController.player;
         GetComponent<AIDestinationSetter>().target = player.transform;
+        target = player.transform;
     }
     private void FixedUpdate()
     {

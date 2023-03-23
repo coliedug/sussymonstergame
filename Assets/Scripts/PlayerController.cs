@@ -89,12 +89,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void FixedUpdate()
-    { //This is where the of the physics based update calculations, it's all just rigidbody movement basically.
+    { //This is of the physics based update calculations, it's all just rigidbody movement basically.
         ProcessMovement();
         if (movement.x < 0)
         {
             facingLeft = true;
-            facedDirectionOffset = -1f;
+            facedDirectionOffset = -1;
             gameObject.GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
         else if (movement.x > 0)
@@ -176,7 +176,14 @@ public class PlayerController : MonoBehaviour
                 Slam(1);
             }
         }
-
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            gameObject.GetComponent<AudioSource>().volume += 0.1f;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            gameObject.GetComponent<AudioSource>().volume -= 0.1f;
+        }
     }
     void ProcessMovement()
     {
@@ -201,15 +208,17 @@ public class PlayerController : MonoBehaviour
         }
     }
     void MainAttack()
-    {//The main attack, right now it's just a straight ray in the direction the player is facing, later on I'll add an actual attack profile, depending on
-     //which character is attacking, like the tank will have a bigger swing etc.
-        RaycastHit2D hit = CastRayAtSide(5);
-        if (hit.collider != null)
+    {
+        Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position + new Vector3(facedDirectionOffset, 0, 0), 2);
+        foreach (Collider2D i in hit)
         {
-            Debug.Log("Hit " + hit.collider.gameObject.name);
-            if (hit.collider.gameObject.GetComponent<HealthSystemScript>() != null)
+            if (i.gameObject.layer == 7)
             {
-                hit.collider.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-mainAttackDamage, false);
+                Debug.Log("Hit " + i.gameObject.name);
+                if (i.gameObject.GetComponent<HealthSystemScript>() != null)
+                {
+                    i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-mainAttackDamage, false);
+                }
             }
         }
     }
@@ -265,14 +274,6 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(gameObject.transform.position + new Vector3(dashLength * facedDirectionOffset, 0, 0));
         dashAvailable = false;
 
-    }
-    RaycastHit2D CastRayAtSide(float rayLength)
-    {
-        Debug.Log("Casting Ray");
-        Debug.DrawRay(gameObject.transform.position, new Vector3(rayLength * facedDirectionOffset, 0), Color.red, 1f);
-        Vector3 rayStart = gameObject.transform.position + new Vector3(0.6f * facedDirectionOffset, 0, 0);
-        RaycastHit2D hit = Physics2D.Raycast(rayStart, transform.right * facedDirectionOffset, rayLength);
-        return (hit);
     }
     States PlayerCollisionCheck(Collision2D collision)
     {
