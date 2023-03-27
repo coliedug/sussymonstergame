@@ -49,7 +49,7 @@ public class PickupSystem : MonoBehaviour
         switch (inputType)
         {
             case PickupType.HealthPickup:
-                gameObject.GetComponent<HealthSystemScript>().ChangeHealth(healthPickupHPChange, false);
+                gameObject.GetComponent<HealthSystemScript>().ChangeHealth(touchedPS.healthPickupHPChange, false);
                 break;
             case PickupType.Pickup2:
                 //Behaviour goes here

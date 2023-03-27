@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         { return; }
         touchedObjects++;
         status = PlayerCollisionCheck(collision);
-        if (status != States.Air && currentChar == 2)
+        if (status == States.Ground && currentChar == 2)
         {
             doubleJumpAvailable = true;
         }
@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 2:
                 sr.sprite = sprites[1];
-                moveSpeed = 8;
+                moveSpeed = 6;
                 mainAttackDamage = 2;
                 doubleJumpAvailable = true;
                 break;

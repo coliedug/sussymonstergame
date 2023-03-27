@@ -21,10 +21,10 @@ public class Thorns_Script : MonoBehaviour
         //couldn't get it to work to where it's confirms whether it's only the player entering trigger
         //would have to fix if in case of other colliders coming into contact with thorns causes player to take damage
         //works otherwise
-        /*if (collision.gameObject == player)
+        if (collision.gameObject.transform.parent == player)
         {
             TickDamage();
-        }*/
+        }
     }
 
     void TickDamage()

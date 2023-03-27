@@ -30,6 +30,7 @@ public class HealthSystemScript : MonoBehaviour
         {
             return;
         }
+        Debug.Log("Changing health from " + health + " to " + (health + changeAmount));
         int oldHP = health;
         health += changeAmount;
         CheckStatus();
@@ -39,11 +40,25 @@ public class HealthSystemScript : MonoBehaviour
         }
         if (gameObject.GetComponent<SpriteRenderer>() != null)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            if (changeAmount > 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            }
         }
         else
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+            if (changeAmount > 0)
+            {
+                gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.green;
+            }
+            else
+            {
+                gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+            }
         }
         Invoke("ReturnColour", 0.1f);
     }

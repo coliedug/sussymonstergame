@@ -37,7 +37,7 @@ public class FlyingEnemyScript : AIDestinationSetter
     {
         damageTick += Time.deltaTime;
         Debug.Log(damageTick);
-        if (damageTick >= 0.5f)
+        if (damageTick >= 0.2f)
         {
             player.GetComponent<HealthSystemScript>().ChangeHealth(-contactDamage, false);
             damageTick = 0;

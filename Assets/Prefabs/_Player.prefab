@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 1303399336, guid: e0c298369ddeb70449824073ffef13f6, type: 3}
   currentChar: 1
   jumpheight: 500
-  dashLength: 10
+  dashLength: 2
   dashDamage: 10
   maxMoveSpeed: 7
   ps:
@@ -71,8 +71,8 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
-  debugMode: 1
-  debugCircle: {fileID: 0}
+  debugMode: 0
+  debugCircle: {fileID: 4214730970311121752, guid: 6ba3944b913a3ae40809f4e044ed628b, type: 3}
 --- !u!50 &-2878513408466007691
 Rigidbody2D:
   serializedVersion: 4
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  healthPickupHPChange: 1
+  healthPickupHPChange: 0
 --- !u!1 &2985948392011865422
 GameObject:
   m_ObjectHideFlags: 0
