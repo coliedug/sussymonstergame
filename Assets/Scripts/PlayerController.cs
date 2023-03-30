@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     public static GameObject player { get; private set; }
     Rigidbody2D rb;
-    [SerializeField] int moveSpeed = 10;
     Vector2 movement;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Sprite[] sprites;
@@ -15,11 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int jumpheight = 10;
     int mainAttackDamage = 1;
     bool facingLeft = false;
-    bool doubleJumpAvailable = true;
     bool dashAvailable = true;
     [SerializeField] int dashLength;
     [SerializeField] int dashDamage;
-    [SerializeField] float maxMoveSpeed;
     [SerializeField] ParticleSystem[] ps;
     [SerializeField] float slamRadius;
     [SerializeField] int slamDamage;
@@ -55,7 +52,7 @@ public class PlayerController : MonoBehaviour
         status = PlayerCollisionCheck(collision);
         if (status == States.Ground && currentChar == 2)
         {
-            doubleJumpAvailable = true;
+
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -95,21 +92,11 @@ public class PlayerController : MonoBehaviour
         {
             facingLeft = true;
             facedDirectionOffset = -1;
-            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
         else if (movement.x > 0)
         {
             facingLeft = false;
             facedDirectionOffset = 1;
-            gameObject.GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-        if (rb.velocity.x > maxMoveSpeed | rb.velocity.x < -maxMoveSpeed)
-        {
-            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -moveSpeed, moveSpeed), rb.velocity.y);
-        }
-        if (Input.GetAxisRaw("Horizontal") == 0)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
         }
     }
 
@@ -126,20 +113,6 @@ public class PlayerController : MonoBehaviour
     }
     void CheckInputs()
     {//This is where player input is processed, it's called every update
-        if(Input.GetButtonDown("Jump"))
-        {
-            if (status != States.Air)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.AddForce(new Vector2(0, jumpheight));
-            }
-            else if (currentChar == 2 && doubleJumpAvailable)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.AddForce(new Vector2(0, jumpheight));
-                doubleJumpAvailable = false;
-            }
-        }
         if(Input.GetButtonDown("Fire1"))
         {
             MainAttack();
@@ -152,7 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             slamCharge = 0;
         }
-        movement.x = Input.GetAxisRaw("Horizontal");
         if(Input.GetKeyDown(KeyCode.E))
         {
             if (currentChar < 2)
@@ -195,15 +167,13 @@ public class PlayerController : MonoBehaviour
         {
             case 1:
                 sr.sprite = sprites[0];
-                moveSpeed = 4;
                 mainAttackDamage = 5;
-                doubleJumpAvailable = false;
+                //doubleJumpAvailable = false;
                 break;
             case 2:
                 sr.sprite = sprites[1];
-                moveSpeed = 6;
                 mainAttackDamage = 2;
-                doubleJumpAvailable = true;
+                //doubleJumpAvailable = true;
                 break;
         }
     }
