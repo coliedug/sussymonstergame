@@ -7,6 +7,7 @@ public class FallingPlatform : MonoBehaviour
     private float fallDelay = 1f;
     private float respawnDelay = 5f;
     private float destroyDelay = 2f;
+    public Animator animator;
     GameObject player;
     Vector3 startingPosition;
     [SerializeField] private Rigidbody2D rb;
@@ -22,6 +23,7 @@ public class FallingPlatform : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             StartCoroutine(Fall());
+            animator.SetBool("IsFall", true);
         }
     }
 
