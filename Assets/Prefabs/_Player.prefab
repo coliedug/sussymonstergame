@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -5843049959949674511}
   - component: {fileID: 864614977}
   - component: {fileID: 5353952638157557041}
+  - component: {fileID: 4083390547341462875}
   m_Layer: 2
   m_Name: _Player
   m_TagString: Untagged
@@ -53,7 +54,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31465b6540214e4db053e7622826329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 300
   sr: {fileID: 6453916102198303877}
   sprites:
   - {fileID: 1231387564, guid: e0c298369ddeb70449824073ffef13f6, type: 3}
@@ -62,7 +62,6 @@ MonoBehaviour:
   jumpheight: 500
   dashLength: 2
   dashDamage: 10
-  maxMoveSpeed: 7
   ps:
   - {fileID: 165747427305498276}
   - {fileID: 7928295900878950124}
@@ -218,6 +217,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   healthPickupHPChange: 0
+--- !u!114 &4083390547341462875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063584981462942948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0bc798a22978f247893fe2a1c0f334e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!1 &2985948392011865422
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +243,7 @@ GameObject:
   - component: {fileID: 2218478514068756041}
   m_Layer: 2
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
