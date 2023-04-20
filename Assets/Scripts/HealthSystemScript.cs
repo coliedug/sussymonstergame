@@ -7,6 +7,7 @@ public class HealthSystemScript : MonoBehaviour
     [SerializeField] int health;
     Color normalColour;
     [SerializeField] bool hammerRequired;
+    bool isInvulnerable;
 
     private void Start()
     {
@@ -26,7 +27,7 @@ public class HealthSystemScript : MonoBehaviour
 
     public void ChangeHealth(int changeAmount, bool hammerAttack)
     {
-        if (hammerRequired && !hammerAttack)
+        if (hammerRequired && !hammerAttack | isInvulnerable)
         {
             return;
         }
@@ -86,5 +87,18 @@ public class HealthSystemScript : MonoBehaviour
         {
             gameObject.GetComponentInChildren<SpriteRenderer>().color = normalColour;
         }
+    }
+
+    public void StartInvuln(float invulnTime)
+    {
+        StartCoroutine(ProcessInvuln(invulnTime));
+    }
+    IEnumerator ProcessInvuln(float invulnTime)
+    {
+        isInvulnerable = true;
+        Debug.Log("Invuln");
+        yield return new WaitForSeconds(invulnTime);
+        isInvulnerable = false;
+        Debug.Log("Not Invuln");
     }
 }

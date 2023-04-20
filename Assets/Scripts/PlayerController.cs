@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour
     Vector2 movement;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Sprite[] sprites;
-    [SerializeField] int currentChar = 1;
-    [SerializeField] int jumpheight = 10;
+    public int currentChar = 1;
     int mainAttackDamage = 1;
     bool facingLeft = false;
     bool dashAvailable = true;
@@ -22,18 +21,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int slamDamage;
     [SerializeField] LayerMask enemyMask;
     float facedDirectionOffset;
-    int touchedObjects;
     float dashCooldown;
     float slamCharge;
     [SerializeField] bool debugMode;
-    [SerializeField] GameObject debugCircle;
-    enum States
+    [SerializeField] GameObject attackPSGameobject;
+    public enum States
     {
         Ground,
         Air,
         Side
     }
-    States status;
+    public States status;
 
     void Awake()
     {
@@ -43,27 +41,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         SwitchCharacter();
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 7)
-        { return; }
-        touchedObjects++;
-        status = PlayerCollisionCheck(collision);
-        if (status == States.Ground && currentChar == 2)
-        {
-
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 7)
-        { return; }
-        touchedObjects--;
-        if (touchedObjects == 0)
-        {
-            status = States.Air;
-        }
     }
     void Update()
     {
@@ -86,18 +63,19 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void FixedUpdate()
-    { //This is of the physics based update calculations, it's all just rigidbody movement basically.
+    {
         ProcessMovement();
-        if (movement.x < 0)
+        if (rb.velocity.x < 0)
         {
             facingLeft = true;
             facedDirectionOffset = -1;
         }
-        else if (movement.x > 0)
+        else if (rb.velocity.x > 0)
         {
             facingLeft = false;
             facedDirectionOffset = 1;
         }
+        attackPSGameobject.transform.localScale = new Vector3(facedDirectionOffset, 1, 1);
     }
 
     void SetPlayerReference()
@@ -179,6 +157,7 @@ public class PlayerController : MonoBehaviour
     }
     void MainAttack()
     {
+        attackPSGameobject.GetComponentInChildren<ParticleSystem>().Play();
         Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position + new Vector3(facedDirectionOffset, 0, 0), 2);
         foreach (Collider2D i in hit)
         {
@@ -244,30 +223,6 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(gameObject.transform.position + new Vector3(dashLength * facedDirectionOffset, 0, 0));
         dashAvailable = false;
 
-    }
-    States PlayerCollisionCheck(Collision2D collision)
-    {
-        Vector2 relativePos = collision.GetContact(0).point - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-        float theta = Mathf.Atan(relativePos.y / relativePos.x);
-        if (theta < 0)
-        {
-            theta += Mathf.PI * 2;
-        }
-        theta = theta * 180 / Mathf.PI; //Convert from radians to degrees
-        if (relativePos.x < 0 && relativePos.y < 0)
-        {
-            theta += 180;
-        }
-        switch (theta)
-        {
-            case >45 and <135:
-                return(States.Air);
-            case >240 and < 300:
-                return (States.Ground);
-            default:
-                return (States.Side);
-
-        }
     }
 }
 

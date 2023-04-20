@@ -10,11 +10,13 @@ public class PickupSystem : MonoBehaviour
     {
         Player,
         HealthPickup,
-        Pickup2,
-        Pickup3
+        Invuln,
+        Coin
     }
     [SerializeField] PickupType type;
     [SerializeField] int healthPickupHPChange = 1;
+    [SerializeField] float invulnTime = 5f;
+    [SerializeField] int coinScoreAmount = 10;
 
     private void Awake()
     {
@@ -24,7 +26,7 @@ public class PickupSystem : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Ends the script if the touched object is not a pickup
         if(!collision.gameObject.GetComponent<PickupSystem>())
@@ -37,7 +39,6 @@ public class PickupSystem : MonoBehaviour
             touchedPS.DestroyPickup();
             ProcessPickup(pickedUpItemType);
         }
-
     }
     void DestroyPickup()
     {
@@ -51,11 +52,11 @@ public class PickupSystem : MonoBehaviour
             case PickupType.HealthPickup:
                 gameObject.GetComponent<HealthSystemScript>().ChangeHealth(touchedPS.healthPickupHPChange, false);
                 break;
-            case PickupType.Pickup2:
-                //Behaviour goes here
+            case PickupType.Invuln:
+                gameObject.GetComponent<HealthSystemScript>().StartInvuln(invulnTime);
                 break;
-            case PickupType.Pickup3:
-                //Behaviour goes here
+            case PickupType.Coin:
+                ScoreSystem.scoreSystem.UpdateScore(coinScoreAmount);
                 break;
         }
     }

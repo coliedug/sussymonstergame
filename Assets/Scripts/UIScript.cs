@@ -6,6 +6,8 @@ using TMPro;
 public class UIScript : MonoBehaviour
 {
     public static UIScript userInterface { get; private set; }
+    [SerializeField] TextMeshProUGUI healthUI;
+    [SerializeField] TextMeshProUGUI scoreUI;
     private void Awake()
     {
         if (userInterface == null)
@@ -20,6 +22,11 @@ public class UIScript : MonoBehaviour
 
     public void UpdatePlayerHP(int newPlayerHP)
     {
-        GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + newPlayerHP;
+        healthUI.text = "Health: " + newPlayerHP;
+    }
+
+    public void UpdateScore(int newScore)
+    {
+        scoreUI.text = newScore.ToString();
     }
 }
