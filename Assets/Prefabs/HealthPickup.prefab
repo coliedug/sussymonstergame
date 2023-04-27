@@ -49,6 +49,7 @@ MonoBehaviour:
   type: 1
   healthPickupHPChange: 1
   invulnTime: 5
+  coinScoreAmount: 10
 --- !u!58 &1105546848239810171
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

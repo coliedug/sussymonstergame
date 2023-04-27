@@ -20,7 +20,6 @@ public class fungi : MonoBehaviour
     {
         if(animationspeed >= 5f)
         {
-            print("wow");
             explodeHitbox.SetActive(true);
         }
         else

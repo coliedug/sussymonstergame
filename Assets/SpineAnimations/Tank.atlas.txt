@@ -1,0 +1,55 @@
+Tank.png
+size:8192,8192
+filter:Linear,Linear
+pma:true
+MS_Tank_Bicep_L
+bounds:2,2,127,192
+rotate:90
+MS_Tank_Bicep_R
+bounds:2756,5470,164,181
+MS_Tank_Foot_L
+bounds:7974,7935,169,249
+MS_Tank_Foot_R
+bounds:568,190,166,239
+rotate:90
+MS_Tank_Forearm_L
+bounds:568,358,532,328
+MS_Tank_Forearm_R
+bounds:2504,5049,602,250
+rotate:90
+MS_Tank_Hammer
+bounds:1934,1699,1996,1698
+rotate:90
+MS_Tank_Hand_L
+bounds:809,212,122,144
+MS_Tank_Hand_R
+bounds:1102,359,118,134
+MS_Tank_Head
+bounds:1934,718,1024,979
+MS_Tank_Kneecap_L
+bounds:2504,4876,178,171
+MS_Tank_Kneecap_R
+bounds:1102,495,162,191
+MS_Tank_Leg_L
+bounds:2960,754,82,279
+rotate:90
+MS_Tank_Leg_R
+bounds:7974,7684,64,249
+MS_Tank_Shoulder_L
+bounds:2504,5653,538,544
+MS_Tank_Shoulder_R]
+bounds:2,131,564,555
+MS_Tank_Torso
+bounds:2960,838,765,859
+Slam Fx1
+bounds:2,6199,3043,1985
+Slam Fx2
+bounds:2,688,3007,1930
+rotate:90
+Slam Fx3
+bounds:3047,6246,3005,1938
+Slam Fx4
+bounds:6054,5310,2874,1918
+rotate:90
+portal
+bounds:2,3697,2500,2500
