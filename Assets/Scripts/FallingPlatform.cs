@@ -16,12 +16,14 @@ public class FallingPlatform : MonoBehaviour
     {
         player = PlayerController.player;
         startingPosition = transform.position;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
+            print("y");
             StartCoroutine(Fall());
             animator.SetBool("IsFall", true);
         }
@@ -37,6 +39,11 @@ public class FallingPlatform : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
         Instantiate(gameObject, startingPosition, Quaternion.identity);
         Destroy(gameObject, destroyDelay);
+    }
+
+    private void endofCrumble()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
 }

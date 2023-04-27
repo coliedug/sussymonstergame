@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EndScreenScript : MonoBehaviour
 {
+    public AudioSource soundPlayer;
+    public AudioClip clickSound;
+    public AudioClip hoverSound;
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
@@ -14,5 +17,15 @@ public class EndScreenScript : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void ClickSound()
+    {
+        soundPlayer.PlayOneShot(clickSound);
+    }
+
+    public void HoverSound()
+    {
+        soundPlayer.PlayOneShot(hoverSound);
     }
 }

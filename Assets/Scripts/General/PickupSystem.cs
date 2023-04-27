@@ -18,6 +18,9 @@ public class PickupSystem : MonoBehaviour
     [SerializeField] float invulnTime;
     [SerializeField] int coinScoreAmount = 10;
 
+    [SerializeField] AudioSource soundPlayer;
+    [SerializeField] AudioClip pickupSound;
+
     private void Awake()
     {
         if(gameObject.GetComponent<PlayerController>() != null)
@@ -36,6 +39,7 @@ public class PickupSystem : MonoBehaviour
         if (type == PickupType.Player)
         {
             PickupType pickedUpItemType = touchedPS.type;
+            soundPlayer.PlayOneShot(pickupSound);
             touchedPS.DestroyPickup();
             ProcessPickup(pickedUpItemType);
         }

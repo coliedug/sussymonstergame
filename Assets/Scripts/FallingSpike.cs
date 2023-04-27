@@ -34,14 +34,18 @@ public class FallingSpike : MonoBehaviour
     //when the player collides with the spike itself
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        /*TickDamage();
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;*/
         if (collision.gameObject.CompareTag("Player"))
         {
             TickDamage();
             gameObject.GetComponent<Collider2D>().enabled = false;
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
-        else //if (collision.gameObject.CompareTag("Ground"))
+        else if(collision.gameObject.layer == 6)
         {
+            print("collision with ground");
             gameObject.GetComponent<Collider2D>().enabled = false;
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }

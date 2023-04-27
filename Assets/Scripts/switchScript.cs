@@ -9,7 +9,6 @@ public class switchScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -22,9 +21,9 @@ public class switchScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            print("pressed");
             flipped = true;
-            print(flipped);
+            var sprRenderer = gameObject.GetComponent<SpriteRenderer>();
+            sprRenderer.flipX = true;
         }
     }
 }

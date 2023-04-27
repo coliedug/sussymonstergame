@@ -9,18 +9,18 @@ public class fungi : MonoBehaviour
     public float explosionPoint = 5f;
     public float animationspeed;
     public bool explode = false;
-    GameObject explodeHitbox;
-
-    private void Start()
-    {
-        explodeHitbox = GameObject.Find("explosionhitbox");
-    }
+    [SerializeField] GameObject explodeHitbox;
+    
 
     private void Update()
     {
         if(animationspeed >= 5f)
         {
+<<<<<<< Updated upstream
             explodeHitbox.SetActive(true);
+=======
+            animator.Play("fungiEXPLOSION");
+>>>>>>> Stashed changes
         }
         else
         {
@@ -42,10 +42,14 @@ public class fungi : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            animator.speed = 1;
-            animationspeed = animator.speed;
-        }
+        animator.speed = 1;
+        animationspeed = animator.speed;
+    }
+
+    IEnumerator explodeAnim()
+    {
+        explodeHitbox.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
     }
 }

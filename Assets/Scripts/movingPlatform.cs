@@ -8,52 +8,113 @@ public class movingPlatform : MonoBehaviour
     public int startingPoint;
     public Transform[] points;
     public bool flipped;
-    GameObject Switch;
+    [SerializeField] GameObject Switch;
 
     private int i;
 
     void Start()
     {
         transform.position = points[startingPoint].position;
-        Switch = GameObject.Find("Switch");
-        switchScript cs = Switch.GetComponent<switchScript>();
-        flipped = cs.flipped;
-        print(flipped);
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-        switchScript cs = Switch.GetComponent<switchScript>();
-        flipped = cs.flipped;
-        if (Vector2.Distance(transform.position, points[i].position) < 0.2f)
+        /*if(Switch == null)
         {
-            i++;
-            if(i == points.Length)
+            if (Vector2.Distance(transform.position, points[i].position) < 0.2f)
             {
-                i = 0;
+                i++;
+                if (i == points.Length)
+                {
+                    i = 0;
+                }
             }
+            transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.deltaTime);
         }
-        if (flipped == true)
+        else
         {
-        transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.deltaTime);
-        }
+            switchScript cs = Switch.GetComponent<switchScript>();
+            flipped = cs.flipped;
+            if (Vector2.Distance(transform.position, points[i].position) < 0.2f)
+            {
+                i++;
+                if (i == points.Length)
+                {
+                    i = 0;
+                }
+            }
+            if (flipped == true)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.deltaTime);
+            }
+
+            
+        }*/
+
+        
+        
         
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
+    private void FixedUpdate()
     {
-        print("y");
-        if(collision.transform.position.y > transform.position.y)
+        if (Switch == null)
         {
-            collision.transform.SetParent(transform);
+            if (Vector2.Distance(transform.position, points[i].position) < 0.2f)
+            {
+                i++;
+                if (i == points.Length)
+                {
+                    i = 0;
+                }
+            }
+            transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            switchScript cs = Switch.GetComponent<switchScript>();
+            flipped = cs.flipped;
+            if (Vector2.Distance(transform.position, points[i].position) < 0.2f)
+            {
+                i++;
+                if (i == points.Length)
+                {
+                    i = 0;
+                }
+            }
+            if (flipped == true)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.fixedDeltaTime);
+            }
+
+
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    /*private void OnCollisionStay2D(Collision2D collision)
     {
-        print("n");
-        collision.transform.SetParent(null);
+        if (collision.gameObject.CompareTag("Player") && collision.transform.position.y > transform.position.y)
+        {
+            collision.transform.SetParent(transform);
+            print("start collision");
+        }
     }*/
+
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        collision.transform.SetParent(null);
+        print("end collision");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && collision.transform.position.y > transform.position.y)
+        {
+            collision.transform.SetParent(transform);
+            print("start collision");
+        }
+    }
+
 }
+
