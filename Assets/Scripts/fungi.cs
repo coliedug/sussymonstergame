@@ -16,11 +16,7 @@ public class fungi : MonoBehaviour
     {
         if(animationspeed >= 5f)
         {
-<<<<<<< Updated upstream
-            explodeHitbox.SetActive(true);
-=======
             animator.Play("fungiEXPLOSION");
->>>>>>> Stashed changes
         }
         else
         {
