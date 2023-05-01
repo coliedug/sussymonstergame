@@ -70,10 +70,10 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417628541284085483}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -1.5, y: 0}
@@ -447,9 +447,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   debugMode: 1
-  colliders:
-  - {fileID: 4821973087592965519}
-  - {fileID: 7899703870436957234}
   status: 0
 --- !u!50 &-2878513408466007691
 Rigidbody2D:
@@ -671,11 +668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4884780127805638500}
-<<<<<<< Updated upstream
-  - component: {fileID: 7375661456998512627}
-=======
   - component: {fileID: 637087950}
->>>>>>> Stashed changes
   m_Layer: 2
   m_Name: Collider
   m_TagString: Player
@@ -698,11 +691,7 @@ Transform:
   m_Father: {fileID: 2704607049956442200}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
---- !u!70 &7375661456998512627
-=======
 --- !u!70 &637087950
->>>>>>> Stashed changes
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -715,13 +704,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-<<<<<<< Updated upstream
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
-=======
   m_Offset: {x: 0, y: 0.16}
   m_Size: {x: 1.7, y: 2.5}
->>>>>>> Stashed changes
   m_Direction: 0
 --- !u!1 &6028208388484469558
 GameObject:
@@ -762,10 +746,10 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6028208388484469558}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 1.5, y: 0}

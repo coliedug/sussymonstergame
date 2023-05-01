@@ -22,14 +22,7 @@ public class PlayerController : MonoBehaviour
     float dashCooldown;
     [SerializeField] bool debugMode;
     AnimationHandler animator;
-<<<<<<< Updated upstream
-
-    //MAGNUS SHIT v
-    [SerializeField] Collider2D[] colliders;
-    Vector2 a;
-=======
     bool slamming;
->>>>>>> Stashed changes
     public enum States
     {
         Ground,
@@ -104,13 +97,6 @@ public class PlayerController : MonoBehaviour
         {
             SecondaryAttack();
         }
-<<<<<<< Updated upstream
-        if (Input.GetButtonDown("Fire2"))
-        {
-            slamCharge = 1;
-        }
-=======
->>>>>>> Stashed changes
         if(Input.GetKeyDown(KeyCode.E))
         {
             if (currentChar < 2)
@@ -121,25 +107,8 @@ public class PlayerController : MonoBehaviour
             {
                 currentChar = 1;
             }
-            print(currentChar);
             SwitchCharacter();
         }
-<<<<<<< Updated upstream
-        if (Input.GetButtonUp("Fire2"))
-        {
-            if(facingLeft)
-            {
-                print("clicked right");
-                Slam(0);
-            }
-            else
-            {
-                print("clicked right");
-                Slam(1);
-            }
-        }
-=======
->>>>>>> Stashed changes
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
             gameObject.GetComponent<AudioSource>().volume += 0.1f;
@@ -208,26 +177,11 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hit = Physics2D.OverlapCircleAll(slamlocation, slamRadius, enemyMask);
         foreach (Collider2D i in hit)
         {
-<<<<<<< Updated upstream
-            a.x = colliders[facedDirection].offset.x + player.transform.position.x;
-            a.y = colliders[facedDirection].offset.y + player.transform.position.y;
-            print(a);
-            Collider2D[] hit = Physics2D.OverlapCircleAll(a, slamRadius, enemyMask);
-            foreach (Collider2D i in hit)
-            {
-                i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
-                if (i.GetComponent<Rigidbody2D>() != null)
-                {
-                    Vector2 forceDirection = i.transform.position - colliders[facedDirection].gameObject.transform.position;
-                    i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
-                }
-=======
             i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
             if (i.GetComponent<Rigidbody2D>() != null)
             {
                 Vector2 forceDirection = i.transform.position - gameObject.transform.position;
                 i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
->>>>>>> Stashed changes
             }
         }
         animator.currentState = AnimationHandler.states.idle;
