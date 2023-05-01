@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class HealthSystemScript : MonoBehaviour
@@ -39,12 +40,17 @@ public class HealthSystemScript : MonoBehaviour
     {
         if (health <= 0)
         {
+            if (gameObject.CompareTag("Player"))
+            {
+                SceneManager.LoadScene("Level_1");
+            }
             Kill();
         }
     }
 
     void Kill()
     {
+        
         Destroy(gameObject);
     }
 

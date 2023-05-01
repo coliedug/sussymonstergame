@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     float slamCharge;
     [SerializeField] bool debugMode;
     AnimationHandler animator;
+
+    //MAGNUS SHIT v
+    [SerializeField] Collider2D[] colliders;
+    Vector2 a;
     public enum States
     {
         Ground,
@@ -99,7 +103,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            slamCharge = 0;
+            slamCharge = 1;
         }
         if(Input.GetKeyDown(KeyCode.E))
         {
@@ -111,16 +115,19 @@ public class PlayerController : MonoBehaviour
             {
                 currentChar = 1;
             }
+            print(currentChar);
             SwitchCharacter();
         }
         if (Input.GetButtonUp("Fire2"))
         {
             if(facingLeft)
             {
+                print("clicked right");
                 Slam(0);
             }
             else
             {
+                print("clicked right");
                 Slam(1);
             }
         }
@@ -183,13 +190,16 @@ public class PlayerController : MonoBehaviour
         //to the player gameobject which has the particle effects.
         if (Input.GetButtonUp("Fire2") && slamCharge > 1)
         {
-            Collider2D[] hit = Physics2D.OverlapCircleAll(ps[facedDirection].gameObject.transform.position, slamRadius, enemyMask);
+            a.x = colliders[facedDirection].offset.x + player.transform.position.x;
+            a.y = colliders[facedDirection].offset.y + player.transform.position.y;
+            print(a);
+            Collider2D[] hit = Physics2D.OverlapCircleAll(a, slamRadius, enemyMask);
             foreach (Collider2D i in hit)
             {
                 i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
                 if (i.GetComponent<Rigidbody2D>() != null)
                 {
-                    Vector2 forceDirection = i.transform.position - ps[facedDirection].gameObject.transform.position;
+                    Vector2 forceDirection = i.transform.position - colliders[facedDirection].gameObject.transform.position;
                     i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
                 }
             }

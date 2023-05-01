@@ -17,7 +17,6 @@ public class FallingSpike : MonoBehaviour
     {
         player = PlayerController.player;
         startingPosition = transform.position;
-        print(startingPosition);
         gameObject.GetComponent<Collider2D>().enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }

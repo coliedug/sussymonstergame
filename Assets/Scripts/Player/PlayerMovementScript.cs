@@ -17,7 +17,7 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] float jumpDownGrav;
     [SerializeField] float jumpDownGravStartHeight;
 
-    bool doubleJumpAvailable = false;
+    public bool doubleJumpAvailable = false;
 
     int touchedGroundObjects;
     PlayerController pc;
@@ -72,12 +72,12 @@ public class PlayerMovementScript : MonoBehaviour
         {
             rb.AddForce(acceleration);
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -horMaxSpeed, horMaxSpeed), rb.velocity.y);
-            Debug.Log("Using character 1 values");
+            //Debug.Log("Using character 1 values");
         }
         else if (pc.currentChar == 2)
         {
             rb.AddForce(acceleration * 1.5f);
-            Debug.Log("Using character 2 values");
+            //Debug.Log("Using character 2 values");
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -1.5f*horMaxSpeed, 1.5f * horMaxSpeed), rb.velocity.y);
         }
         animator.TryMove(rb.velocity.x);
@@ -97,10 +97,6 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 doubleJumpAvailable = false;
                 ExecuteJump();
-            }
-            else
-            {
-                //don't jump
             }
         }
         else
@@ -127,16 +123,25 @@ public class PlayerMovementScript : MonoBehaviour
 
     States PlayerGroundedCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), Vector2.down, 1.3f, groundMask);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), Vector2.down, 1f, groundMask);
         if (hit == false)
         {
+            print("air");
             pc.status = PlayerController.States.Air;
             return(States.Air);
         }
         else
         {
+            print("ground");
             pc.status = PlayerController.States.Ground;
-            doubleJumpAvailable = true;
+            if(pc.currentChar == 2)
+            {
+                doubleJumpAvailable = true;
+            }
+            else
+            {
+                doubleJumpAvailable = false;
+            }
             animator.currentState = AnimationHandler.states.idle;
             return (States.Ground);
         }

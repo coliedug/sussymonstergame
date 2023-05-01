@@ -11,12 +11,15 @@ public class FallingPlatform : MonoBehaviour
     GameObject player;
     Vector3 startingPosition;
     [SerializeField] private Rigidbody2D rb;
-    // Start is called before the first frame update
+    
+    private AudioSource soundPlayer;
+    [SerializeField] private AudioClip breakSound;
     void Start()
     {
         player = PlayerController.player;
         startingPosition = transform.position;
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        soundPlayer = player.GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -44,6 +47,7 @@ public class FallingPlatform : MonoBehaviour
     private void endofCrumble()
     {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        soundPlayer.PlayOneShot(breakSound);
     }
 
 }

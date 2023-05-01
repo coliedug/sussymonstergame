@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 4510557945134193363}
   - component: {fileID: 2449099924859447720}
   - component: {fileID: 1984251115174081728}
+  - component: {fileID: 3027874645794989322}
   m_Layer: 7
   m_Name: FlyingEnemy
   m_TagString: Untagged
@@ -166,7 +167,7 @@ MonoBehaviour:
   version: 5
   radius: 0.5
   height: 2
-  canMove: 1
+  canMove: 0
   maxSpeed: 3
   gravity: {x: 0, y: 0, z: 0}
   groundMask:
@@ -270,4 +271,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a222beb3e8c07c740ad1f2ee69e6e0df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  version: 1
+  target: {fileID: 0}
   contactDamage: 1
+--- !u!70 &3027874645794989322
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437797178714803107}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 35, y: 35}
+  m_Direction: 0

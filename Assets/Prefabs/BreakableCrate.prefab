@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5951685383171539721}
   - component: {fileID: 5951685383171539720}
   - component: {fileID: 5951685383171539723}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BreakableCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,4 +148,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   hammerRequired: 1
-  isInvulnerable: 0

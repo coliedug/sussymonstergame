@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7500445216375050039}
   rb: {fileID: 8933110353639292808}
+  breakSound: {fileID: 8300000, guid: 338cc17d277fc46409d0394358874123, type: 3}
 --- !u!251 &2971938663940807739
 PlatformEffector2D:
   m_ObjectHideFlags: 0

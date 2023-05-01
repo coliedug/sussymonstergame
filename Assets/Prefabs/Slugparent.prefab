@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2885549184869678786}
   - component: {fileID: 2885549184869678787}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2885549185611845223}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slugparent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2885549185623067536}
   - component: {fileID: 2885549185623067537}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 2885549186583952978}
   - component: {fileID: 2885549186583952991}
   - component: {fileID: 2885549186583952990}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,4 +358,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   hammerRequired: 0
-  isInvulnerable: 0
