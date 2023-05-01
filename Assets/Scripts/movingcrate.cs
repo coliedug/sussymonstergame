@@ -11,9 +11,10 @@ public class movingcrate : MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
-        else
-        {
-            gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
     }
 }

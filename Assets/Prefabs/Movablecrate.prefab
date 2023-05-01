@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5827385812342625387}
   - component: {fileID: 5827385812342625386}
   - component: {fileID: 5827385812342625389}
+  - component: {fileID: 2533309709488128111}
   m_Layer: 6
   m_Name: Movablecrate
   m_TagString: Untagged
@@ -133,3 +134,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2533309709488128111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827385812342625388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88db39f9c406122459d58c9138ad029c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

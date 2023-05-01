@@ -20,14 +20,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask enemyMask;
     float facedDirectionOffset;
     float dashCooldown;
-    [SerializeField] bool debugMode;
     AnimationHandler animator;
     bool slamming;
     public enum States
     {
         Ground,
         Air,
-        Side
     }
     public States status;
 
@@ -43,14 +41,6 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (debugMode)
-        {
-            GetComponentInChildren<TextMeshPro>().SetText(status.ToString());
-        }
-        else
-        {
-            GetComponentInChildren<TextMeshPro>().SetText("");
-        }
         CheckInputs();
         if (!dashAvailable)
         {
