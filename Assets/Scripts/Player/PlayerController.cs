@@ -20,13 +20,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask enemyMask;
     float facedDirectionOffset;
     float dashCooldown;
-    float slamCharge;
     [SerializeField] bool debugMode;
     AnimationHandler animator;
+<<<<<<< Updated upstream
 
     //MAGNUS SHIT v
     [SerializeField] Collider2D[] colliders;
     Vector2 a;
+=======
+    bool slamming;
+>>>>>>> Stashed changes
     public enum States
     {
         Ground,
@@ -101,10 +104,13 @@ public class PlayerController : MonoBehaviour
         {
             SecondaryAttack();
         }
+<<<<<<< Updated upstream
         if (Input.GetButtonDown("Fire2"))
         {
             slamCharge = 1;
         }
+=======
+>>>>>>> Stashed changes
         if(Input.GetKeyDown(KeyCode.E))
         {
             if (currentChar < 2)
@@ -118,6 +124,7 @@ public class PlayerController : MonoBehaviour
             print(currentChar);
             SwitchCharacter();
         }
+<<<<<<< Updated upstream
         if (Input.GetButtonUp("Fire2"))
         {
             if(facingLeft)
@@ -131,6 +138,8 @@ public class PlayerController : MonoBehaviour
                 Slam(1);
             }
         }
+=======
+>>>>>>> Stashed changes
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
             gameObject.GetComponent<AudioSource>().volume += 0.1f;
@@ -160,7 +169,7 @@ public class PlayerController : MonoBehaviour
     }
     void MainAttack()
     {
-        animator.currentState = AnimationHandler.states.attacking;
+        animator.TryAttack();
         Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position + new Vector3(facedDirectionOffset, 0, 0), 2);
         foreach (Collider2D i in hit)
         {
@@ -178,18 +187,28 @@ public class PlayerController : MonoBehaviour
     {//This just checks which character you're on and calls the slam or dash when you right click, depending on said character.
         if (currentChar == 1)
         {
-            slamCharge += Time.deltaTime;
+            Slam();
         }
         else
         {
             Dash();
         }
     }
-    void Slam(int facedDirection)
-    {//This is the tank's slam attack, it uses an overlap circle to grab all the hit colliders with the right layermask, cast centred on a gameobject attached
-        //to the player gameobject which has the particle effects.
-        if (Input.GetButtonUp("Fire2") && slamCharge > 1)
+    void Slam()
+    {
+        if (slamming) return;
+        slamming = true;
+        animator.TrySlam();
+        Invoke("ProcessSlam", 1.1f);
+    }
+    void ProcessSlam()//This is the tank's slam attack, it uses an overlap circle to grab all the hit colliders with the right layermask, cast centred on a gameobject attached
+                      //to the player gameobject which has the particle effects.
+    {
+        Vector3 slamlocation = new Vector2(gameObject.transform.position.x + (facedDirectionOffset * 2), gameObject.transform.position.y - 1);
+        Collider2D[] hit = Physics2D.OverlapCircleAll(slamlocation, slamRadius, enemyMask);
+        foreach (Collider2D i in hit)
         {
+<<<<<<< Updated upstream
             a.x = colliders[facedDirection].offset.x + player.transform.position.x;
             a.y = colliders[facedDirection].offset.y + player.transform.position.y;
             print(a);
@@ -202,8 +221,20 @@ public class PlayerController : MonoBehaviour
                     Vector2 forceDirection = i.transform.position - colliders[facedDirection].gameObject.transform.position;
                     i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
                 }
+=======
+            i.gameObject.GetComponent<HealthSystemScript>().ChangeHealth(-slamDamage, true);
+            if (i.GetComponent<Rigidbody2D>() != null)
+            {
+                Vector2 forceDirection = i.transform.position - gameObject.transform.position;
+                i.gameObject.GetComponent<Rigidbody2D>().AddForce(forceDirection * 100);
+>>>>>>> Stashed changes
             }
         }
+        animator.currentState = AnimationHandler.states.idle;
+        Debug.Log("Slam");
+        slamming = false;
+        animator.soundEffects.clip = animator.slamSound;
+        animator.soundEffects.Play();
     }
     void Dash()
     {

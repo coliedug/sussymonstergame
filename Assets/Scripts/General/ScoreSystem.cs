@@ -12,10 +12,12 @@ public class ScoreSystem : MonoBehaviour
         if (scoreSystem == null)
         {
             scoreSystem = this;
+            Debug.Log(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            Debug.Log(gameObject);
+            //Destroy(gameObject);
         }
     }
 

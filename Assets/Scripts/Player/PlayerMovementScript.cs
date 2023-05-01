@@ -26,7 +26,6 @@ public class PlayerMovementScript : MonoBehaviour
     {
         Ground,
         Air,
-        Side
     }
     States status;
     [SerializeField] LayerMask groundMask;
@@ -72,12 +71,18 @@ public class PlayerMovementScript : MonoBehaviour
         {
             rb.AddForce(acceleration);
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -horMaxSpeed, horMaxSpeed), rb.velocity.y);
+<<<<<<< Updated upstream
             //Debug.Log("Using character 1 values");
+=======
+>>>>>>> Stashed changes
         }
         else if (pc.currentChar == 2)
         {
             rb.AddForce(acceleration * 1.5f);
+<<<<<<< Updated upstream
             //Debug.Log("Using character 2 values");
+=======
+>>>>>>> Stashed changes
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -1.5f*horMaxSpeed, 1.5f * horMaxSpeed), rb.velocity.y);
         }
         animator.TryMove(rb.velocity.x);
@@ -107,10 +112,9 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void ExecuteJump()
     {
-        animator.currentState = AnimationHandler.states.jumping;
+        animator.TryJump();
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(new Vector2(0, jumpImpulse), ForceMode2D.Impulse);
-        //animator.currentState = AnimationHandler.states.idle;
     }
     
     private void JumpArcCheck()
@@ -134,6 +138,7 @@ public class PlayerMovementScript : MonoBehaviour
         {
             print("ground");
             pc.status = PlayerController.States.Ground;
+<<<<<<< Updated upstream
             if(pc.currentChar == 2)
             {
                 doubleJumpAvailable = true;
@@ -143,6 +148,13 @@ public class PlayerMovementScript : MonoBehaviour
                 doubleJumpAvailable = false;
             }
             animator.currentState = AnimationHandler.states.idle;
+=======
+            doubleJumpAvailable = true;
+            if (Input.GetAxisRaw("Horizontal") == 0)
+            {
+                animator.currentState = AnimationHandler.states.idle;
+            }
+>>>>>>> Stashed changes
             return (States.Ground);
         }
     }

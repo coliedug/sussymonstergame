@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
+using Spine;
 
 public class AnimationHandler : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class AnimationHandler : MonoBehaviour
         rogue,
         tank
     }
-    Characters activeCharacter;
+    public Characters activeCharacter;
     public enum states
     {
         idle,
@@ -18,16 +19,21 @@ public class AnimationHandler : MonoBehaviour
         dashing,
         jumping,
         attacking,
-        slamming
+        slamming,
+        swapping
     }
     public states currentState;
     states previousState;
     TankAnimator tankAnimator;
     RogueAnimator rogueAnimator;
     public bool isLookingRight;
-    // Start is called before the first frame update
+    [SerializeField] GameObject audioObject;
+    public AudioSource soundEffects;
+    public AudioClip attackSound, jumpSound, slamSound;
+
     void Start()
     {
+        soundEffects = audioObject.GetComponent<AudioSource>();
         tankAnimator = GetComponentInChildren<TankAnimator>();
         rogueAnimator = GetComponentInChildren<RogueAnimator>();
 
@@ -79,6 +85,12 @@ public class AnimationHandler : MonoBehaviour
                 break;
         }
     }
+    public void TrySlam()
+    {
+        Debug.Log("Slam");
+        currentState = states.slamming;
+        tankAnimator.PlaySlamAnimation();
+    }
 
     void PlayNewAnimation()
     {
@@ -91,15 +103,9 @@ public class AnimationHandler : MonoBehaviour
                 rogueAnimator.isLookingRight = isLookingRight;
                 switch (currentState)
                 {
-                    case states.jumping:
-                        rogueAnimator.PlayJumpAnimation();
-                        return;
                     case states.running:
                         animationToPlay = rogueAnimator.runAnimationName;
                         break;
-                    case states.attacking:
-                        rogueAnimator.PlayMainAttackAnimation();
-                        return;
                     default:
                         animationToPlay = rogueAnimator.idleAnimationName;
                         break;
@@ -110,15 +116,9 @@ public class AnimationHandler : MonoBehaviour
                 tankAnimator.isLookingRight = isLookingRight;
                 switch (currentState)
                 {
-                    case states.jumping:
-                        tankAnimator.PlayJumpAnimation();
-                        return;
                     case states.running:
                         animationToPlay = tankAnimator.runAnimationName;
                         break;
-                    case states.attacking:
-                        tankAnimator.PlayMainAttackAnimation();
-                        return;
                     default:
                         animationToPlay = tankAnimator.idleAnimationName;
                         break;
@@ -129,21 +129,61 @@ public class AnimationHandler : MonoBehaviour
     }
 
     public void ReceiveCharacterChange(Characters charToChangeTo)
-    { // Receive's the info that the character has changed from the player controller and enables/disables the rogue/tank's animations and animator scripts accordingly
-        activeCharacter = charToChangeTo;
-        if (activeCharacter == Characters.tank)
+    {
+        StartCoroutine(CharChangeProcess(charToChangeTo));
+    }
+    IEnumerator CharChangeProcess(Characters startingChar)
+    {
+        if (startingChar != Characters.rogue)
         {
+            rogueAnimator.PlayAnimationNoLoop(rogueAnimator.teleportOutAnimationName);
+            yield return new WaitForSeconds(0.333f);
+            activeCharacter = Characters.tank;
             rogueAnimator.enabled = false;
             rogueAnimator.gameObject.GetComponent<MeshRenderer>().enabled = false;
             tankAnimator.enabled = true;
             tankAnimator.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            tankAnimator.PlayAnimationNoLoop(tankAnimator.teleportInAnimationName);
+            yield return new WaitForSeconds(0.333f);
+            currentState = states.idle;
         }
         else
         {
+            tankAnimator.PlayAnimationNoLoop(tankAnimator.teleportOutAnimationName);
+            yield return new WaitForSeconds(0.333f);
+            activeCharacter = Characters.rogue;
             rogueAnimator.enabled = true;
             rogueAnimator.gameObject.GetComponent<MeshRenderer>().enabled = true;
             tankAnimator.enabled = false;
             tankAnimator.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            rogueAnimator.PlayAnimationNoLoop(rogueAnimator.teleportInAnimationName);
+            yield return new WaitForSeconds(0.333f);
+            currentState = states.idle;
         }
+    }
+
+    public void TryAttack()
+    {
+        if (currentState == states.swapping) return;
+        if (currentState == states.slamming) return;
+        switch (activeCharacter)
+        {
+            case Characters.tank:
+                tankAnimator.PlayMainAttackAnimation();
+                break;
+            case Characters.rogue:
+                rogueAnimator.PlayMainAttackAnimation();
+                break;
+        }
+        soundEffects.clip = attackSound;
+        soundEffects.Play();
+    }
+    public void TryJump()
+    {
+        if (currentState == states.attacking) return;
+        if (currentState == states.slamming) return;
+        currentState = states.jumping;
+        soundEffects.clip = jumpSound;
+        soundEffects.Play();
     }
 }
