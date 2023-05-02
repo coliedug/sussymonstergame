@@ -133,9 +133,13 @@ public class PlayerMovementScript : MonoBehaviour
         {
             pc.status = PlayerController.States.Ground;
             doubleJumpAvailable = true;
-            if (Input.GetAxisRaw("Horizontal") == 0)
+            if (rb.velocity.x == 0)
             {
                 animator.currentState = AnimationHandler.states.idle;
+            }
+            else
+            {
+                animator.currentState = AnimationHandler.states.running;
             }
             return (States.Ground);
         }
