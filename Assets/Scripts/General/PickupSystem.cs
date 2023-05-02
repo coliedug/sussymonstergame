@@ -28,7 +28,13 @@ public class PickupSystem : MonoBehaviour
             type = PickupType.Player;
         }
     }
-
+    private void Start()
+    {
+        if (gameObject != PlayerController.player)
+        {
+            soundPlayer = PlayerController.player.GetComponent<AudioSource>();
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Ends the script if the touched object is not a pickup
@@ -57,10 +63,10 @@ public class PickupSystem : MonoBehaviour
                 gameObject.GetComponent<HealthSystemScript>().ChangeHealth(touchedPS.healthPickupHPChange, false);
                 break;
             case PickupType.Invuln:
-                gameObject.GetComponent<HealthSystemScript>().StartInvuln(invulnTime);
+                gameObject.GetComponent<HealthSystemScript>().StartInvuln(touchedPS.invulnTime);
                 break;
             case PickupType.Coin:
-                ScoreSystem.scoreSystem.UpdateScore(coinScoreAmount);
+                ScoreSystem.scoreSystem.UpdateScore(touchedPS.coinScoreAmount);
                 break;
         }
     }

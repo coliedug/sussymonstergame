@@ -23,6 +23,7 @@ public class HealthSystemScript : MonoBehaviour
 
     public void ChangeHealth(int changeAmount, bool hammerAttack)
     {
+        if (isInvulnerable) { return; }
         if (hammerRequired && !hammerAttack)
         {
             return;
@@ -56,7 +57,7 @@ public class HealthSystemScript : MonoBehaviour
 
     public void StartInvuln(float invulnTime)
     {
-        Debug.Log("Starting Coroutine");
+        Debug.Log("Starting Invuln");
         StartCoroutine(ProcessInvuln(invulnTime));
     }
     IEnumerator ProcessInvuln(float invulnTime)

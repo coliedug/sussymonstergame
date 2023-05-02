@@ -48,8 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   healthPickupHPChange: 1
-  invulnTime: 5
+  invulnTime: 8
   coinScoreAmount: 10
+  soundPlayer: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 62ff614bb30de17439f5a700caba5a33, type: 3}
 --- !u!70 &6391187129853588431
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
